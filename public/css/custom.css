@@ -1,0 +1,11 @@
+table {
+    white-space: nowrap;
+}
+
+.form-error {
+    border-color: red;
+}
+
+.form-error:focus {
+    border-color: red;
+}
