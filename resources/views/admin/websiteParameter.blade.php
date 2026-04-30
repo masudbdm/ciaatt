@@ -98,6 +98,140 @@
                                     @endif
                                 </div>
 
+                                <hr>
+                                <h5 class="mb-2"><b>Homepage Services Section (Dynamic)</b></h5>
+
+                                <div class="form-group {{ $errors->has('home_services_front_title') ? ' has-error' : '' }}">
+                                    <label for="home_services_front_title" class="control-label">Front Card Title</label>
+                                    <input type="text" name="home_services_front_title" class="form-control"
+                                        value="{{ old('home_services_front_title', $post->home_services_front_title ?? '') }}"
+                                        id="home_services_front_title"
+                                        placeholder="Touch Here / To see our services">
+                                    @if ($errors->has('home_services_front_title'))
+                                        <span class="help-block"><strong>{{ $errors->first('home_services_front_title') }}</strong></span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group {{ $errors->has('home_services_front_text') ? ' has-error' : '' }}">
+                                    <label for="home_services_front_text" class="control-label">Front Card Text</label>
+                                    <textarea name="home_services_front_text" class="form-control" rows="3"
+                                        id="home_services_front_text"
+                                        placeholder="Short description (supports line breaks)">{{ old('home_services_front_text', $post->home_services_front_text ?? '') }}</textarea>
+                                    @if ($errors->has('home_services_front_text'))
+                                        <span class="help-block"><strong>{{ $errors->first('home_services_front_text') }}</strong></span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group {{ $errors->has('home_services_back_title') ? ' has-error' : '' }}">
+                                    <label for="home_services_back_title" class="control-label">Back Card Title</label>
+                                    <input type="text" name="home_services_back_title" class="form-control"
+                                        value="{{ old('home_services_back_title', $post->home_services_back_title ?? '') }}"
+                                        id="home_services_back_title"
+                                        placeholder="Why Choose ...?">
+                                    @if ($errors->has('home_services_back_title'))
+                                        <span class="help-block"><strong>{{ $errors->first('home_services_back_title') }}</strong></span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group {{ $errors->has('home_services_back_text') ? ' has-error' : '' }}">
+                                    <label for="home_services_back_text" class="control-label">Back Card Text</label>
+                                    <textarea name="home_services_back_text" class="form-control" rows="3"
+                                        id="home_services_back_text"
+                                        placeholder="Back side description (supports line breaks)">{{ old('home_services_back_text', $post->home_services_back_text ?? '') }}</textarea>
+                                    @if ($errors->has('home_services_back_text'))
+                                        <span class="help-block"><strong>{{ $errors->first('home_services_back_text') }}</strong></span>
+                                    @endif
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group {{ $errors->has('home_services_back_button_text') ? ' has-error' : '' }}">
+                                            <label for="home_services_back_button_text" class="control-label">Back Button Text</label>
+                                            <input type="text" name="home_services_back_button_text" class="form-control"
+                                                value="{{ old('home_services_back_button_text', $post->home_services_back_button_text ?? '') }}"
+                                                id="home_services_back_button_text"
+                                                placeholder="Start to know more">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group {{ $errors->has('home_services_back_button_link') ? ' has-error' : '' }}">
+                                            <label for="home_services_back_button_link" class="control-label">Back Button Link</label>
+                                            <input type="text" name="home_services_back_button_link" class="form-control"
+                                                value="{{ old('home_services_back_button_link', $post->home_services_back_button_link ?? '') }}"
+                                                id="home_services_back_button_link"
+                                                placeholder="e.g. /page/our-services/10 or full URL">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group {{ $errors->has('home_services_right_1_title') ? ' has-error' : '' }}">
+                                            <label for="home_services_right_1_title" class="control-label">Right Box #1 Title</label>
+                                            <input type="text" name="home_services_right_1_title" class="form-control"
+                                                value="{{ old('home_services_right_1_title', $post->home_services_right_1_title ?? '') }}"
+                                                id="home_services_right_1_title"
+                                                placeholder="Pre-Production Services">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group {{ $errors->has('home_services_right_1_link') ? ' has-error' : '' }}">
+                                            <label for="home_services_right_1_link" class="control-label">Right Box #1 Link</label>
+                                            <input type="text" name="home_services_right_1_link" class="form-control"
+                                                value="{{ old('home_services_right_1_link', $post->home_services_right_1_link ?? '') }}"
+                                                id="home_services_right_1_link"
+                                                placeholder="Optional: /page/... or full URL">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group {{ $errors->has('home_services_right_1_text') ? ' has-error' : '' }}">
+                                    <label for="home_services_right_1_text" class="control-label">Right Box #1 Text</label>
+                                    <textarea name="home_services_right_1_text" class="form-control" rows="2"
+                                        id="home_services_right_1_text"
+                                        placeholder="Supports line breaks">{{ old('home_services_right_1_text', $post->home_services_right_1_text ?? '') }}</textarea>
+                                </div>
+                                <div class="form-group {{ $errors->has('home_services_right_1_link_text') ? ' has-error' : '' }}">
+                                    <label for="home_services_right_1_link_text" class="control-label">Right Box #1 Link Text</label>
+                                    <input type="text" name="home_services_right_1_link_text" class="form-control"
+                                        value="{{ old('home_services_right_1_link_text', $post->home_services_right_1_link_text ?? '') }}"
+                                        id="home_services_right_1_link_text"
+                                        placeholder="Optional: Read more">
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group {{ $errors->has('home_services_right_2_title') ? ' has-error' : '' }}">
+                                            <label for="home_services_right_2_title" class="control-label">Right Box #2 Title</label>
+                                            <input type="text" name="home_services_right_2_title" class="form-control"
+                                                value="{{ old('home_services_right_2_title', $post->home_services_right_2_title ?? '') }}"
+                                                id="home_services_right_2_title"
+                                                placeholder="Testing Services">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group {{ $errors->has('home_services_right_2_link') ? ' has-error' : '' }}">
+                                            <label for="home_services_right_2_link" class="control-label">Right Box #2 Link</label>
+                                            <input type="text" name="home_services_right_2_link" class="form-control"
+                                                value="{{ old('home_services_right_2_link', $post->home_services_right_2_link ?? '') }}"
+                                                id="home_services_right_2_link"
+                                                placeholder="Optional: /page/... or full URL">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group {{ $errors->has('home_services_right_2_text') ? ' has-error' : '' }}">
+                                    <label for="home_services_right_2_text" class="control-label">Right Box #2 Text</label>
+                                    <textarea name="home_services_right_2_text" class="form-control" rows="2"
+                                        id="home_services_right_2_text"
+                                        placeholder="Supports line breaks">{{ old('home_services_right_2_text', $post->home_services_right_2_text ?? '') }}</textarea>
+                                </div>
+                                <div class="form-group {{ $errors->has('home_services_right_2_link_text') ? ' has-error' : '' }}">
+                                    <label for="home_services_right_2_link_text" class="control-label">Right Box #2 Link Text</label>
+                                    <input type="text" name="home_services_right_2_link_text" class="form-control"
+                                        value="{{ old('home_services_right_2_link_text', $post->home_services_right_2_link_text ?? '') }}"
+                                        id="home_services_right_2_link_text"
+                                        placeholder="Optional: Read more">
+                                </div>
+
                                 {{-- <div class="form-group {{ $errors->has('user_page_msg') ? ' has-error' : '' }}">
                                     <label for="user_page_msg" class="control-label"> User Page Message </label>
 
@@ -128,37 +262,7 @@
                                     </div> --}}
 
 
-                                    <div
-                                    class="form-group {{ $errors->has('google_analytics_code') ? ' has-error' : '' }}">
-                                    <label for="google_analytics_code" class="control-label"> Google Analytics
-                                    (Tracking) Code </label>
-
-                                    <textarea name="google_analytics_code" class="form-control" rows="2"
-                                    id="google_analytics_code"
-                                    placeholder="Google Analytics Code (Tracking Code)">{!! old('google_analytics_code') ?: $post->google_analytics_code ?? '' !!}</textarea>
-
-                                    @if ($errors->has('google_analytics_code'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('google_analytics_code') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-
-                                <div
-                                class="form-group {{ $errors->has('facebook_pixel_code') ? ' has-error' : '' }}">
-                                <label for="facebook_pixel_code" class="control-label"> Facebook (Pixel) Code
-                                </label>
-
-                                <textarea name="facebook_pixel_code" class="form-control" rows="2"
-                                id="facebook_pixel_code"
-                                placeholder="Facebook Pixel Code (Tracking Code)">{!! old('facebook_pixel_code') ?: $post->facebook_pixel_code ?? '' !!}</textarea>
-
-                                @if ($errors->has('facebook_pixel_code'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('facebook_pixel_code') }}</strong>
-                                </span>
-                                @endif
-                            </div>
+                                    
 
 
                             <div class="form-group">
@@ -193,45 +297,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group {{ $errors->has('contact_mobile') ? ' has-error' : '' }}">
-                                <label for="contact_mobile" class="  control-label">Contact Mobile</label>
-
-                                <input type="text" name="contact_mobile" class="form-control"
-                                value="{{ old('contact_mobile') ?: $post->contact_mobile ?? '' }}"
-                                id="contact_mobile" placeholder="+055654646515" autocomplete="off">
-                                @if ($errors->has('contact_mobile'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('contact_mobile') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                            <div class="form-group {{ $errors->has('contact_email') ? ' has-error' : '' }}">
-                                <label for="contact_email" class="  control-label">Contact email</label>
-
-                                <input type="text" name="contact_email" class="form-control"
-                                value="{{ old('contact_email') ?: $post->contact_email ?? '' }}"
-                                id="contact_email" placeholder="ex. something@some.com" autocomplete="off">
-                                @if ($errors->has('contact_email'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('contact_email') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-
-
-                            <div class="form-group {{ $errors->has('footer_address') ? ' has-error' : '' }}">
-                                <label for="footer_address" class="control-label">Footer Address</label>
-
-
-                                <textarea name="footer_address" class="form-control" rows="2" id="footer_address"
-                                placeholder="Website address in footer area">{{ old('footer_address') ?: $post->footer_address ?? '' }}</textarea>
-                                @if ($errors->has('footer_address'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('footer_address') }}</strong>
-                                </span>
-                                @endif
-
-                            </div>
+                            
 
 
                         </div>
@@ -416,6 +482,19 @@
                                         </span>
                                         @endif
                                     </div>
+
+                                    <div class="form-group {{ $errors->has('linkedin_url') ? ' has-error' : '' }}">
+                                        <label for="linkedin_url" class="control-label">LinkedIn URL</label>
+
+                                        <input type="url" name="linkedin_url" class="form-control"
+                                        value="{{ old('linkedin_url', $post->linkedin_url ?? '') }}" id="linkedin_url"
+                                        placeholder="https://www.linkedin.com/company/..." autocomplete="off">
+                                        @if ($errors->has('linkedin_url'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('linkedin_url') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
                                     {{-- <div class="form-group ">
                                         <label for="news_editions" class=" control-label">News Editions</label> <br>
                                         <?php
@@ -433,6 +512,80 @@
 
 
                                     </div> --}}
+
+
+                                    <div class="form-group {{ $errors->has('contact_mobile') ? ' has-error' : '' }}">
+                                <label for="contact_mobile" class="  control-label">Contact Mobile</label>
+
+                                <input type="text" name="contact_mobile" class="form-control"
+                                value="{{ old('contact_mobile') ?: $post->contact_mobile ?? '' }}"
+                                id="contact_mobile" placeholder="+055654646515" autocomplete="off">
+                                @if ($errors->has('contact_mobile'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('contact_mobile') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <div class="form-group {{ $errors->has('contact_email') ? ' has-error' : '' }}">
+                                <label for="contact_email" class="  control-label">Contact email</label>
+
+                                <input type="text" name="contact_email" class="form-control"
+                                value="{{ old('contact_email') ?: $post->contact_email ?? '' }}"
+                                id="contact_email" placeholder="ex. something@some.com" autocomplete="off">
+                                @if ($errors->has('contact_email'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('contact_email') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+
+
+                            <div class="form-group {{ $errors->has('footer_address') ? ' has-error' : '' }}">
+                                <label for="footer_address" class="control-label">Footer Address</label>
+
+
+                                <textarea name="footer_address" class="form-control" rows="2" id="footer_address"
+                                placeholder="Website address in footer area">{{ old('footer_address') ?: $post->footer_address ?? '' }}</textarea>
+                                @if ($errors->has('footer_address'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('footer_address') }}</strong>
+                                </span>
+                                @endif
+
+                            </div>
+
+
+                            <div
+                                    class="form-group {{ $errors->has('google_analytics_code') ? ' has-error' : '' }}">
+                                    <label for="google_analytics_code" class="control-label"> Google Analytics
+                                    (Tracking) Code </label>
+
+                                    <textarea name="google_analytics_code" class="form-control" rows="2"
+                                    id="google_analytics_code"
+                                    placeholder="Google Analytics Code (Tracking Code)">{!! old('google_analytics_code') ?: $post->google_analytics_code ?? '' !!}</textarea>
+
+                                    @if ($errors->has('google_analytics_code'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('google_analytics_code') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+
+                                <div
+                                class="form-group {{ $errors->has('facebook_pixel_code') ? ' has-error' : '' }}">
+                                <label for="facebook_pixel_code" class="control-label"> Facebook (Pixel) Code
+                                </label>
+
+                                <textarea name="facebook_pixel_code" class="form-control" rows="2"
+                                id="facebook_pixel_code"
+                                placeholder="Facebook Pixel Code (Tracking Code)">{!! old('facebook_pixel_code') ?: $post->facebook_pixel_code ?? '' !!}</textarea>
+
+                                @if ($errors->has('facebook_pixel_code'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('facebook_pixel_code') }}</strong>
+                                </span>
+                                @endif
+                            </div>
 
                                 </div>
                             </div>

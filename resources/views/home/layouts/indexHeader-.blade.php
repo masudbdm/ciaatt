@@ -7,7 +7,7 @@
                 <div class="container-fluid px-0">
                     <a class="navbar-brand font-weight-bolder ms-sm-3" href="{{ url('/') }}" rel="tooltip"
                         title="{{ $websiteParameter->h1 }}" data-placement="bottom" target="">
-                        <img width="100" src="{{ asset($websiteParameter->logo()) }}" class=" m-0 p-0" ><span class="w3-medium w3-text-gray d-none d-md-inline">
+                        <img width="100" src="{{ asset($websiteParameter->logo()) }}" class=" m-0 p-0" ><span class="w3-large w3-text-gray d-none d-md-inline">
     &nbsp;{{ $websiteParameter->h1 }}
 </span>
 
@@ -65,7 +65,7 @@
                                     <a class="nav-link ps-2 d-flex cursor-pointer align-items-center"
                                         id="dropdownMenuBlocks" data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="material-icons opacity-6 me-2 text-md text-info">view_day</i>
-                                       
+                                        {{-- About PLUG --}}
                                         {!! $menu->menu_title !!}
                                         <img src="{{ asset('template/assets/img/down-arrow-dark.svg') }}"
                                             alt="down-arrow" class="arrow ms-auto ms-md-2">

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
+use App\Services\SiteCacheService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
 
@@ -82,7 +82,7 @@ class TeamController extends Controller
         $data['addedby_id']  = Auth::id();
 
         Team::create($data);
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
 
         return redirect()->route('teams.index')
@@ -155,7 +155,7 @@ class TeamController extends Controller
         $data['editedby_id'] = Auth::id();
 
         $team->update($data);
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
 
         return redirect()
@@ -174,7 +174,7 @@ class TeamController extends Controller
         }
 
         $team->delete();
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
 
         return redirect()->route('teams.index')
@@ -195,7 +195,7 @@ class TeamController extends Controller
             }
         });
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
 
         return response()->json([

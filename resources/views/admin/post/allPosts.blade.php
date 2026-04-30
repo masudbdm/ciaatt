@@ -4,6 +4,7 @@
 @endpush
 @section('content')
     <div class="container-fluid">
+    @include('alerts.alerts')
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
@@ -20,9 +21,10 @@
                                 <th>Title</th>
                                 <th>Excerpt</th>
                                 <th>Image</th>
-                                <th>Tags</th>
+                                
                                 <th>Categories</th>
                                 <th>Subcategories</th>
+                                <th>Tags</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,7 +41,18 @@
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu" role="menu">
-                                                <li> <a href="{{ route('admin.viewPost',$post->slug) }}" >Details</a></li>
+                                                <!-- <li> <a href="{{ route('admin.viewPost',$post->slug) }}" >Details</a></li> -->
+                                                <!-- <li class="dropdown-divider"></li> -->
+                                                <li>
+                                                    <form action="{{ route('admin.deletePost', $post) }}" method="POST"
+                                                        onsubmit="return confirm('Are you sure you want to delete this post? This cannot be undone.');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="dropdown-item text-danger" style="border:0;background:none;">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </li>
                                                 
                                             </ul>
                                         </div>
@@ -49,13 +62,7 @@
                                     <td>{{ $post->title }}</td>
                                     <td>{{ mb_substr($post->excerpt, 0, 30) }}</td>
                                     <td>{{ $post->feature_img_name }}</td>
-                                    <td>
-                                        @if ($post->tags)
-                                            @foreach ($post->tags as $item)
-                                                <span class="badge badge-info">{{ $item }}</span>
-                                            @endforeach
-                                        @endif
-                                    </td>
+                                    
                                     <td>
                                         @if ($post->categories)
                                             @foreach ($post->categories as $item)
@@ -67,6 +74,13 @@
                                         @if ($post->subcategories)
                                             @foreach ($post->subcategories as $item)
                                                 <span class="badge badge-warning">{{ $item->name }}</span>
+                                            @endforeach
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($post->tags)
+                                            @foreach ($post->tags as $item)
+                                                <span class="badge badge-info">{{ $item }}</span>
                                             @endforeach
                                         @endif
                                     </td>

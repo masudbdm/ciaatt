@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 // use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
+use App\Services\SiteCacheService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -92,7 +92,7 @@ class AdminMediaController extends Controller
                 $media->save();
             }
 
-            Cache::flush();
+            SiteCacheService::flushSiteCaches();
         }
 
         
@@ -136,7 +136,7 @@ class AdminMediaController extends Controller
 
             $media->save();
 
-            Cache::flush();
+            SiteCacheService::flushSiteCaches();
             return "OK";
         }
     }
@@ -162,7 +162,7 @@ class AdminMediaController extends Controller
             $media->delete();
         }
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         return back()->with('info', 'Media successfully deleted.');
     }
@@ -200,7 +200,7 @@ class AdminMediaController extends Controller
             }
         }
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
         return view('admin.gallery.imgGalleryAddNew', [
 
             'mediaAll' => $mediaAll,
@@ -243,7 +243,7 @@ class AdminMediaController extends Controller
             $igi->save();
         }
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         if ($request->ajax()) {
             return Response()->json(array('success' => true));
@@ -280,7 +280,7 @@ class AdminMediaController extends Controller
             $ig->items()->where('publish_status', 'temp')->delete();
         }
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         return back()->with('success', 'Your Gallery Successfully Saved.');
     }
@@ -338,7 +338,7 @@ class AdminMediaController extends Controller
         $gallery->items()->delete();
         $gallery->delete();
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         return back()->with('info', 'Gallery Successfully Deleted.');
     }
@@ -371,7 +371,7 @@ class AdminMediaController extends Controller
             $ig->items()->where('publish_status', 'temp')->delete();
         }
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         return redirect()->route('admin.imgGalleriesAll')->with('success', 'Your Gallery Successfully Updated.');
     }
@@ -389,7 +389,7 @@ class AdminMediaController extends Controller
             $vg->save();
         }
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
         return view('admin.gallery.video.videoGalleryAddNew', ['videoGallery' => $vg]);
     }
 
@@ -401,7 +401,7 @@ class AdminMediaController extends Controller
         $vg->publish_status = 'published';
         $vg->save();
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         return redirect()->back()->with('success', 'Video Added Successfully');
     }
@@ -424,7 +424,7 @@ class AdminMediaController extends Controller
         $vg->videoUrl = embededURL($request->videoUrl);
         $vg->save();
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         return redirect()->back()->with('success', 'Gallery Video updated Successfully');
     }
@@ -433,7 +433,7 @@ class AdminMediaController extends Controller
         $vg = VideoGallery::find($request->gallery);
         $vg->delete();
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         return redirect()->back()->with('success', 'Video Galllery item Deleted Successfully');
     }
@@ -449,7 +449,7 @@ class AdminMediaController extends Controller
             $post->feature_img_ext = null;
             $post->save();
 
-            Cache::flush();
+            SiteCacheService::flushSiteCaches();
             
             return back()->with('success', 'Feature Image Deleted Successfully');
         }

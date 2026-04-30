@@ -120,6 +120,20 @@
                 <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
             </div>
         </li> --}}
+        <li class="nav-item d-none d-md-flex align-items-center pr-2">
+            <form method="POST" action="{{ route('admin.siteCache.clear') }}" class="d-inline mr-1">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-outline-danger" title="Clear site cache (pages, posts, SEO)">
+                    <i class="fas fa-broom"></i> Clear cache
+                </button>
+            </form>
+            <form method="POST" action="{{ route('admin.siteCache.warm') }}" class="d-inline">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-outline-success" title="Pre-build site cache">
+                    <i class="fas fa-fire"></i> Warm cache
+                </button>
+            </form>
+        </li>
         <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                 <i class="fas fa-expand-arrows-alt"></i>

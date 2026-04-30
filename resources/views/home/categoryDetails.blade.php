@@ -15,6 +15,14 @@
                     </ol>
                 </nav>
                 <h3>{{ $category->name }}</h3>
+                @if ($category->subcats->isNotEmpty())
+                    <div class="d-flex flex-wrap align-items-center gap-1 mb-2">
+                        @foreach ($category->subcats as $subcat)
+                            <a href="{{ route('user.subcategoryDetails', $subcat) }}"
+                                class="btn btn-sm btn-outline-primary me-1 mb-1">{{ $subcat->name }}</a>
+                        @endforeach
+                    </div>
+                @endif
             </div>
 
             <div class="col-md-8 px-0">

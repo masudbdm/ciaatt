@@ -10,7 +10,7 @@ use App\Models\WebsiteParameter;
 // use Auth;
 use Facade\FlareClient\View;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
+use App\Services\SiteCacheService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 // use Validator;
@@ -83,7 +83,7 @@ class CatSubcategoryController extends Controller
         //     $cat->save();
         // } 
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         return back()->withInput()->with('success', 'New Category Successfully Created.');
     }
@@ -97,7 +97,7 @@ class CatSubcategoryController extends Controller
             $cat->save();
         }
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
         if ($request->ajax()) {
             return Response()->json([
                 'success' => true,
@@ -117,7 +117,7 @@ class CatSubcategoryController extends Controller
         $cat->subcats()->delete();
         $cat->delete();
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         if ($request->ajax()) {
             return Response()->json('success');
@@ -160,7 +160,7 @@ class CatSubcategoryController extends Controller
         $cat->editedby_id = Auth::id();
         $cat->save();
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         if ($request->ajax()) {
             return Response()->json(View('admin.categories.ajax.catTable', [
@@ -200,7 +200,7 @@ class CatSubcategoryController extends Controller
         $subcat->editedby_id = Auth::id();
         $subcat->save();
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         if ($request->ajax()) {
             return Response()->json(View('admin.categories.ajax.subcatTable', [
@@ -217,7 +217,7 @@ class CatSubcategoryController extends Controller
         // $subcat->posts()->detach();
         $subcat->delete();
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         if ($request->ajax()) {
             return Response()->json(['success' => true]);
@@ -260,7 +260,7 @@ class CatSubcategoryController extends Controller
         $subcat->editedby_id = Auth::id();
         $subcat->save();
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         if ($request->ajax()) {
             return Response()->json(view('admin.categories.ajax.updateSubcat',['subcat'=>$subcat])->render());

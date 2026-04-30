@@ -11,7 +11,7 @@ use App\Models\Page;
 use App\Models\PageItem;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use App\Services\SiteCacheService;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
@@ -32,7 +32,7 @@ class AdminPageController extends Controller
             $menu->addedby_id = Auth::id();
             $menu->save();
 
-            Cache::flush();
+            SiteCacheService::flushSiteCaches();
 
             return redirect()
                 ->route('admin.allMenus')
@@ -58,7 +58,7 @@ class AdminPageController extends Controller
             return redirect()->back()->with('warning','Menu Not Found');
         }
         $menu->delete();
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
         return redirect()->back()->with('success','Menu Deleted Successfully');
     }
     public function editMenu(Menu $menu)
@@ -75,7 +75,7 @@ class AdminPageController extends Controller
             $menu->slug       = Str::slug($request->slug); // safety
             $menu->save();
 
-            Cache::flush();
+            SiteCacheService::flushSiteCaches();
 
             return redirect()
                 ->route('admin.allMenus')
@@ -127,7 +127,7 @@ class AdminPageController extends Controller
             }
         }
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         return redirect()->back()->with('success','Page Added Successfully');
     }
@@ -140,7 +140,7 @@ class AdminPageController extends Controller
             $cat->editedby_id = Auth::id();
             $cat->save();
 
-            Cache::flush();
+            SiteCacheService::flushSiteCaches();
         }
         if($request->ajax())
         {
@@ -186,7 +186,7 @@ class AdminPageController extends Controller
         $item->addedby_id = Auth::id();
         $item->save();
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
  
         return back()->with('success', 'Page Item Created Successfully!');
     }
@@ -194,7 +194,7 @@ class AdminPageController extends Controller
     {
         $item->delete();
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         return back()->with('success', 'Part of the Page Deleted Successfully');
     }
@@ -229,7 +229,7 @@ class AdminPageController extends Controller
         $item->editedby_id = Auth::id();
         $item->save();
 
-        Cache::flush(); 
+        SiteCacheService::flushSiteCaches(); 
 
         return back()->with('success', 'Page Item Updated Successfully!');
     }
@@ -245,7 +245,7 @@ class AdminPageController extends Controller
         }
         $item->save();
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         return back();
     }
@@ -254,7 +254,7 @@ class AdminPageController extends Controller
         $page->items()->delete();
         $page->delete();
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         return back()->with('success', 'Page Deleted Successfully');
     }

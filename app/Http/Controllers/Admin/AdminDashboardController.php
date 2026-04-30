@@ -11,7 +11,7 @@ use App\Models\CustomerDetail;
 use App\Models\WebsiteParameter;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Cache;
+use App\Services\SiteCacheService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -50,6 +50,21 @@ class AdminDashboardController extends Controller
             'primary_color'    => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
             'secondary_color'  => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
             'hero_type' => 'required|in:image,video',
+            'linkedin_url' => 'nullable|string|max:500',
+            'home_services_front_title' => 'nullable|string|max:255',
+            'home_services_front_text' => 'nullable|string',
+            'home_services_back_title' => 'nullable|string|max:255',
+            'home_services_back_text' => 'nullable|string',
+            'home_services_back_button_text' => 'nullable|string|max:120',
+            'home_services_back_button_link' => 'nullable|string|max:500',
+            'home_services_right_1_title' => 'nullable|string|max:255',
+            'home_services_right_1_text' => 'nullable|string',
+            'home_services_right_1_link_text' => 'nullable|string|max:120',
+            'home_services_right_1_link' => 'nullable|string|max:500',
+            'home_services_right_2_title' => 'nullable|string|max:255',
+            'home_services_right_2_text' => 'nullable|string',
+            'home_services_right_2_link_text' => 'nullable|string|max:120',
+            'home_services_right_2_link' => 'nullable|string|max:500',
         ]);
 
         if($validation->fails())
@@ -92,12 +107,30 @@ class AdminDashboardController extends Controller
         $post->contact_mobile = $request->contact_mobile;
         $post->contact_email = $request->contact_email;
         $post->twitter_url = $request->twitter_url;
+        $post->linkedin_url = $request->linkedin_url;
         $post->primary_color   = $request->primary_color;
         $post->secondary_color = $request->secondary_color;
         $post->hero_type = $request->hero_type;
         $post->front_team_show = $request->front_team_show ? 1 : 0;
         $post->google_map_code_contact = $request->google_map_code_contact;
         $post->google_map_code = $request->google_map_code;
+
+        $post->home_services_front_title = $request->home_services_front_title;
+        $post->home_services_front_text = $request->home_services_front_text;
+        $post->home_services_back_title = $request->home_services_back_title;
+        $post->home_services_back_text = $request->home_services_back_text;
+        $post->home_services_back_button_text = $request->home_services_back_button_text;
+        $post->home_services_back_button_link = $request->home_services_back_button_link;
+
+        $post->home_services_right_1_title = $request->home_services_right_1_title;
+        $post->home_services_right_1_text = $request->home_services_right_1_text;
+        $post->home_services_right_1_link_text = $request->home_services_right_1_link_text;
+        $post->home_services_right_1_link = $request->home_services_right_1_link;
+
+        $post->home_services_right_2_title = $request->home_services_right_2_title;
+        $post->home_services_right_2_text = $request->home_services_right_2_text;
+        $post->home_services_right_2_link_text = $request->home_services_right_2_link_text;
+        $post->home_services_right_2_link = $request->home_services_right_2_link;
 
         
         if ($request->news_editions) {
@@ -168,7 +201,7 @@ class AdminDashboardController extends Controller
 
         $post->save();
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         return back()->with('success', 'Website Parameter Successfully Updated.');
     }

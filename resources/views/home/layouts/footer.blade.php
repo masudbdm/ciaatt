@@ -29,6 +29,13 @@
                                 <i class="fab fa-youtube text-lg opacity-8"></i>
                             </a>
                         </li>
+                        @if (!empty($websiteParameter->linkedin_url))
+                        <li class="nav-item">
+                            <a class="nav-link pe-1" href="{{ url($websiteParameter->linkedin_url) }}" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-linkedin text-lg opacity-8"></i>
+                            </a>
+                        </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -102,7 +109,21 @@
                         @endforeach
                         @endif
                         @endforeach
-                        
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url('webmail')}}">
+                                Webmail
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('sitemap') }}">Sitemap (XML)</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('robots') }}">Robots.txt</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('llms') }}">AI discovery (llms.txt)</a>
+                        </li>
 
                     </ul>
                 </div>
@@ -135,6 +156,13 @@
                         class="btn btn-youtube mb-2 me-2 btn-sm" target="_blank">
                         <i class="fab fa-youtube me-1"></i> See Video
                     </a>
+                    @if (!empty($websiteParameter->linkedin_url))
+                    <a href="{{ url($websiteParameter->linkedin_url) }}"
+                        class="btn mb-2 me-2 btn-sm" style="background-color:#0A66C2;color:#fff;border-color:#0A66C2;"
+                        target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-linkedin me-1"></i> LinkedIn
+                    </a>
+                    @endif
                     </div>
                     
                     

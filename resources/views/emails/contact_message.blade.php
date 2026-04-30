@@ -55,7 +55,7 @@
                     <tr>
                         <td style="background:#f9fafb; padding:15px 30px; text-align:center; font-size:12px; color:#6b7280;">
                             This message was sent from the website contact form.<br>
-                            © {{ date('Y') }} Insight Quality Control
+                            © {{ date('Y') }} CIAATT
                         </td>
                     </tr>
 

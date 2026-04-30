@@ -19,7 +19,7 @@ class ContactMessageMail extends Mailable
 
     public function build()
     {
-        return $this->subject('IQC Contact Message from ' . $this->mailData['name'])
+        return $this->subject('CIAATT Contact Message from ' . $this->mailData['name'])
         ->replyTo($this->mailData['email'], $this->mailData['name'])
         ->view('emails.contact_message');
     }

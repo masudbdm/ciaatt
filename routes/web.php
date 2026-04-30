@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\EditorController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SeoController;
+use App\Http\Controllers\Admin\AdminSiteCacheController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -29,9 +31,14 @@ use Illuminate\Support\Facades\Crypt;
 
 
 
+Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
+Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
+Route::get('/llms.txt', [SeoController::class, 'llms'])->name('llms');
+
 Route::get('/', [WelcomeController::class, 'welcome'])->name('user.welcome');
 Route::get('/categories', [WelcomeController::class, 'categories'])->name('user.categories');
 Route::get('/category-details/{category}', [WelcomeController::class, 'categoryDetails'])->name('user.categoryDetails');
+Route::get('/subcategory-details/{subcategory}', [WelcomeController::class, 'subcategoryDetails'])->name('user.subcategoryDetails');
 Route::get('/details', [WelcomeController::class, 'details'])->name('user.details');
 Route::get('/company-profile', [WelcomeController::class, 'companyProfile'])->name('user.companyProfile');
 Route::get('/about-us', [WelcomeController::class, 'aboutUs'])->name('user.aboutUs');
@@ -71,6 +78,9 @@ Route::any('set/lan', [WelcomeController::class, 'setlan'])->name('setLan');
 
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
+
+    Route::post('site-cache/clear', [AdminSiteCacheController::class, 'clear'])->name('admin.siteCache.clear');
+    Route::post('site-cache/warm', [AdminSiteCacheController::class, 'warm'])->name('admin.siteCache.warm');
 
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('website-parameter', [AdminDashboardController::class, 'websiteParameter'])->name('admin.websiteParameter');
@@ -140,6 +150,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('all/posts', [EditorController::class, 'allPost'])->name('admin.allPost');
     Route::get('edit/post/{post}', [EditorController::class, 'editPost'])->name('admin.editPost');
     Route::post('update/post/{post}', [EditorController::class, 'updtePost'])->name('admin.updtePost');
+    Route::delete('delete/post/{post}', [EditorController::class, 'deletePost'])->name('admin.deletePost');
     Route::get('post/{slug}', [EditorController::class, 'viewPost'])->name('admin.viewPost');
     Route::get('select/tags/or/add', [EditorController::class, 'selectTagsOrAddNew'])->name('admin.selectTagsOrAddNew');
     //Post End
@@ -193,6 +204,11 @@ Route::any('/image/details/{media}', [AdminMediaController::class, 'imageDetails
         Route::post('/admin/teams/reorder', 
             [TeamController::class, 'reorder']
         )->name('teams.reorder');
+
+        Route::get('/run-migrate', function () {
+            \Artisan::call('migrate', ['--force' => true]);
+            return 'Migration done';
+        });
 
 
 });

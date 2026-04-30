@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 // use Validator;
 // use Auth;
 use DB;
-use Illuminate\Support\Facades\Cache;
+use App\Services\SiteCacheService;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +43,7 @@ class EditorController extends Controller
             $post->save();
         }
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         return view('admin.post.addNewPost', compact('cats', 'post', 'mediaAll'));
     }
@@ -199,7 +199,7 @@ class EditorController extends Controller
             }
         }
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
 
         return redirect()->back()->with('success', 'Post Added Successfully');
     }
@@ -337,7 +337,31 @@ class EditorController extends Controller
             }
         }
 
-        Cache::flush();
+        SiteCacheService::flushSiteCaches();
         return redirect()->back()->with('success', 'Post Added Successfully');
+    }
+
+    public function deletePost(Post $post)
+    {
+        DB::transaction(function () use ($post) {
+            // Delete feature image file (if exists)
+            if (!empty($post->feature_img_name)) {
+                $path = 'media/image/' . $post->feature_img_name;
+                if (Storage::disk('public')->exists($path)) {
+                    Storage::disk('public')->delete($path);
+                }
+            }
+
+            // Remove pivot/related rows
+            PostCategory::where('post_id', $post->id)->delete();
+            PostSubcategory::where('post_id', $post->id)->delete();
+
+            // Finally delete post
+            $post->delete();
+        });
+
+        SiteCacheService::flushSiteCaches();
+
+        return redirect()->back()->with('success', 'Post deleted successfully.');
     }
 }

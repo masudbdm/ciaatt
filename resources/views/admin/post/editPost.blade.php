@@ -146,14 +146,21 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <div class="checkbox">
-                                                            <label><input type="checkbox" name="publish" checked>Publish
+                                                            <label>
+                                                                <input type="checkbox" name="publish"
+                                                                    {{ ($post->publish_status ?? null) === 'published' ? 'checked' : '' }}>
+                                                                Publish
                                                                 Instantly</label>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <div class="checkbox">
-                                                            <label><input type="checkbox" name="front_slider" checked>Front</label>
+                                                            <label>
+                                                                <input type="checkbox" name="front_slider"
+                                                                    {{ !empty($post->front_slider) ? 'checked' : '' }}>
+                                                                Front
+                                                            </label>
                                                         </div>
                                                     </div>
                                                     {{-- <div class="form-group">

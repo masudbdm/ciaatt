@@ -6,7 +6,7 @@
             data-placement="bottom" target="">
  
             <img width="100" src="{{ asset($websiteParameter->logo()) }}" class=" m-0 p-0">
-            <span class="w3-large w3-text-gray d-none d-md-inline">
+            <span class="w3-medium w3-text-gray d-none d-md-inline">
     &nbsp;{{ $websiteParameter->h1 }}
 </span>
 

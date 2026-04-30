@@ -130,6 +130,279 @@
         transform: translateY(-2px);
     }
 
+ 
+/* Animated dark glowing welcome box */
+
+.welcome-box-animated{
+    width: 100%;
+    max-height: 100px;
+    position: relative;
+    overflow: hidden;
+
+    background: rgba(30,30,30,0.35);
+    backdrop-filter: blur(8px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    animation: welcomeFloat 5s ease-in-out infinite;
+}
+
+/* Moving inner glow */
+.welcome-box-animated::before{
+    content: "";
+    position: absolute;
+
+    width: 160px;
+    height: 250%;
+
+    top: -100%;
+    left: -200px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.4),
+        rgba(255,255,255,0.1),
+        transparent
+    );
+
+    animation: welcomeGlowMove 10s linear infinite;
+}
+
+/* Text layer */
+.welcome-box-animated a{
+    position: relative;
+    z-index: 2;
+    color: black !important;
+    line-height: 1.2;
+}
+
+/* Floating animation */
+@keyframes welcomeFloat{
+    0%,100%{
+        transform: translateY(0px);
+    }
+    50%{
+        transform: translateY(-2px);
+    }
+}
+
+/* Glow movement */
+@keyframes welcomeGlowMove{
+    from{
+        left: -200px;
+    }
+    to{
+        left: 100%;
+    }
+}
+
+
+
+/* ===============================
+   Glass Spark Animated Card
+================================*/
+.glass-card{
+    position: relative;
+    height: 120px;
+    border-radius: 18px;
+    overflow: hidden;
+
+    backdrop-filter: blur(14px);
+
+    /* 🔥 Animated Glass Background */
+    background: linear-gradient(
+        120deg,
+        rgba(255,255,255,0.75),
+        rgba(240,248,255,0.65),
+        rgba(255,255,255,0.75)
+    );
+    background-size: 200% 200%;
+    animation: glassFlow 8s ease-in-out infinite;
+
+    transition: all 0.35s ease;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.06);
+}
+
+/* Hover Lift */
+.glass-card:hover{
+    transform: translateY(-6px) scale(1.02);
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.15);
+}
+
+/* Spark Shine Sweep */
+.glass-card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-150%;
+    width:60%;
+    height:100%;
+
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.85),
+        transparent
+    );
+
+    animation: sparkMove 5s linear infinite;
+}
+
+/* 🔥 DARKER PREMIUM BORDER */
+.glass-card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:18px;
+    padding:2px;
+
+    background: linear-gradient(
+        45deg,
+        rgba(0,120,255,0.8),
+        rgba(0,255,200,0.8),
+        rgba(90,0,255,0.8)
+    );
+
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+
+    animation: borderGlow 5s ease-in-out infinite;
+}
+
+/* Content Layer */
+.glass-card .card-body{
+    position: relative;
+    z-index: 2;
+}
+
+/* Animations */
+@keyframes sparkMove{
+    0%{ left:-150%; }
+    100%{ left:150%; }
+}
+
+@keyframes borderGlow{
+    0%,100%{ opacity:0.7; }
+    50%{ opacity:1; }
+}
+
+/* 🔥 Background Flow Animation */
+@keyframes glassFlow{
+    0%{ background-position: 0% 50%; }
+    50%{ background-position: 100% 50%; }
+    100%{ background-position: 0% 50%; }
+}
+
+/* ================================
+   NEON QUANTUM CARD
+=================================*/
+
+.neon-card{
+    position: relative;
+    height: 120px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(14px);
+
+    transition: all .35s ease;
+}
+
+/* Depth lift */
+.neon-card:hover{
+    transform: translateY(-8px) scale(1.03);
+}
+
+/* Quantum Neon Border */
+.neon-card::before{
+    content:"";
+    position:absolute;
+    inset:-2px;
+    border-radius:20px;
+
+    background: linear-gradient(
+        45deg,
+        #00f0ff,
+        #00ff9d,
+        #7a00ff,
+        #00f0ff
+    );
+
+    background-size:300% 300%;
+    animation: quantumFlow 6s linear infinite;
+
+    z-index:0;
+}
+
+/* Inner mask */
+.neon-card::after{
+    content:"";
+    position:absolute;
+    inset:2px;
+    border-radius:18px;
+    background: rgba(255,255,255,0.75);
+    z-index:1;
+}
+
+.neon-card .card-body{
+    position:relative;
+    z-index:2;
+}
+
+@keyframes quantumFlow{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.neon-card{
+    --x:50%;
+    --y:50%;
+}
+
+.neon-card:hover{
+    background:
+      radial-gradient(
+        circle at var(--x) var(--y),
+        rgba(0,255,255,0.35),
+        transparent 60%
+      ),
+      rgba(255,255,255,0.7);
+}
+
+.spark{
+    position:absolute;
+    width:4px;
+    height:4px;
+    border-radius:50%;
+    background:#00f0ff;
+    pointer-events:none;
+    animation: sparkFloat 2s linear forwards;
+}
+
+@keyframes sparkFloat{
+    0%{
+        opacity:1;
+        transform: translateY(0) scale(1);
+    }
+    100%{
+        opacity:0;
+        transform: translateY(-40px) scale(0.5);
+    }
+}
+
 
 </style>
 
@@ -201,7 +474,7 @@
 
         <div class="text-center">
 
-            <h1 class="p-2 w3-small mt-2 w3-round" style="background-color: rgba(65, 65, 65, 0.2);">
+            <h1 class="welcome-box-animated p-2 w3-small mt-2 w3-round" style="background-color: rgba(65, 65, 65, 0.2);">
                 <a href="" class="typewrite w3-large text-bolder" data-period="1000" style="color:black;"
                     data-type='[ {{ $websiteParameter->welcome_page_msg }} ]'>
                     <span class="wrap"></span>
@@ -212,45 +485,42 @@
 
         </div>
 
-        <section class="pt-3 pb-4" id="count-stats">
-            <div class="container">
-                <div class="row">
-                    {{-- <div class="col-lg-9 mx-auto py-3">
-                        <div class="row">
-                            <div class="col-md-4 position-relative">
-                                <div class="p-3 text-center">
-                                    <h1 class="text-gradient text-primary"><span id="state1" countTo="70">0</span>+</h1>
-                                    <h5 class="mt-3">Coded Elements</h5>
-                                    <p class="text-sm font-weight-normal">From buttons, to inputs, navbars, alerts or
-                                        cards, you are covered</p>
-                                </div>
-                                <hr class="vertical dark">
-                            </div>
-                            <div class="col-md-4 position-relative">
-                                <div class="p-3 text-center">
-                                    <h1 class="text-gradient text-primary"> <span id="state2" countTo="15">0</span>+
-                                    </h1>
-                                    <h5 class="mt-3">Design Blocks</h5>
-                                    <p class="text-sm font-weight-normal">Mix the sections, change the colors and
-                                        unleash your creativity</p>
-                                </div>
-                                <hr class="vertical dark">
-                            </div>
-                            <div class="col-md-4">
-                                <div class="p-3 text-center">
-                                    <h1 class="text-gradient text-primary" id="state3" countTo="4">0</h1>
-                                    <h5 class="mt-3">Pages</h5>
-                                    <p class="text-sm font-weight-normal">Save 3-4 weeks of work when you use our
-                                        pre-made pages for your website</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
-                </div>
-            </div>
-        </section>
+        @php
+            $servicesFrontTitle = $websiteParameter->home_services_front_title
+                ?: 'Touch Here <br /> To see our services';
+            $servicesFrontText = $websiteParameter->home_services_front_text
+                ?: 'Discover our comprehensive range of services designed to meet your unique needs.';
 
-        {{-- <section class="my-5 py-5">
+            $servicesBackTitle = $websiteParameter->home_services_back_title ?: 'Why Choose CIAATT?';
+            $servicesBackText = $websiteParameter->home_services_back_text
+                ?: 'You will save a lot of time going from End-to-end QA solutions from pre-production to shipment.';
+            $servicesBackButtonText = $websiteParameter->home_services_back_button_text ?: 'Start to know more';
+            $servicesBackButtonLinkRaw = $websiteParameter->home_services_back_button_link
+                ?: route('user.pageDetails', ['url' => 'our-services', 'page' => 10]);
+            $servicesBackButtonLink = preg_match('~^https?://~i', $servicesBackButtonLinkRaw)
+                ? $servicesBackButtonLinkRaw
+                : url($servicesBackButtonLinkRaw);
+
+            $servicesRight1Title = $websiteParameter->home_services_right_1_title
+                ?: 'CIAATT <br>Pre-Production Services';
+            $servicesRight1Text = $websiteParameter->home_services_right_1_text ?: "Raw Material Inspection (fabrics, trims, chemicals)\nCountry of Origin Verification (fabrics & trims)\nFactory Readiness Check\nSupplier Assessment & Capability Audit\nPP Sample Approval & Verification";
+            $servicesRight1LinkText = $websiteParameter->home_services_right_1_link_text;
+            $servicesRight1LinkRaw = $websiteParameter->home_services_right_1_link;
+            $servicesRight1Link = !empty($servicesRight1LinkRaw)
+                ? (preg_match('~^https?://~i', $servicesRight1LinkRaw) ? $servicesRight1LinkRaw : url($servicesRight1LinkRaw))
+                : null;
+
+            $servicesRight2Title = $websiteParameter->home_services_right_2_title
+                ?: 'Specialized Testing Services';
+            $servicesRight2Text = $websiteParameter->home_services_right_2_text ?: "Lab Testing (safety, flammability, chemicals, performance)\nPerformance & Durability Testing\nSustainability & Environmental Verification (Oeko-Tex, GOTS)\nShrinkage/Durability Checks,\nPacking & Hangtag Verification,";
+            $servicesRight2LinkText = $websiteParameter->home_services_right_2_link_text;
+            $servicesRight2LinkRaw = $websiteParameter->home_services_right_2_link;
+            $servicesRight2Link = !empty($servicesRight2LinkRaw)
+                ? (preg_match('~^https?://~i', $servicesRight2LinkRaw) ? $servicesRight2LinkRaw : url($servicesRight2LinkRaw))
+                : null;
+        @endphp
+
+        <section class="my-5 py-2">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-4 ms-auto me-auto p-lg-4 mt-lg-0 mt-4">
@@ -261,20 +531,17 @@
                                     style="background-image: url(https://images.unsplash.com/photo-1569683795645-b62e50fbf103?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80); background-size: cover;">
                                     <div class="card-body py-7 text-center">
                                         <i class="material-icons text-white text-4xl my-3">touch_app</i>
-                                        <h3 class="text-white">Feel the <br /> Material Kit</h3>
-                                        <p class="text-white opacity-8">All the Bootstrap components that you need in a
-                                            development have been re-design with the new look.</p>
+                                        <h3 class="text-white">{!! $servicesFrontTitle !!}</h3>
+                                        <p class="text-white opacity-8">{!! nl2br(e($servicesFrontText)) !!}</p>
                                     </div>
                                 </div>
                                 <div class="back back-background"
                                     style="background-image: url(https://images.unsplash.com/photo-1498889444388-e67ea62c464b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1365&q=80); background-size: cover;">
                                     <div class="card-body pt-7 text-center">
-                                        <h3 class="text-white">Discover More</h3>
-                                        <p class="text-white opacity-8"> You will save a lot of time going from
-                                            prototyping to full-functional code because all elements are implemented.
-                                        </p>
-                                        <a href=".//sections/page-sections/hero-sections.html" target="_blank"
-                                            class="btn btn-white btn-sm w-50 mx-auto mt-3">Start with Headers</a>
+                                        <h3 class="text-white">{!! $servicesBackTitle !!}</h3>
+                                        <p class="text-white opacity-8">{!! nl2br(e($servicesBackText)) !!}</p>
+                                        <a href="{{ $servicesBackButtonLink }}"
+                                            class="btn btn-white btn-sm w-50 mx-auto mt-3">{{ $servicesBackButtonText }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -282,85 +549,39 @@
                     </div>
                     <div class="col-lg-6 ms-auto">
                         <div class="row justify-content-start">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="info">
                                     <i class="material-icons text-gradient text-primary text-3xl">content_copy</i>
-                                    <h5 class="font-weight-bolder mt-3">Full Documentation</h5>
-                                    <p class="pe-5">Built by developers for developers. Check the foundation
-                                        and you will find everything inside our documentation.</p>
+                                    <h5 class="font-weight-bolder mt-3">{!! $servicesRight1Title !!}</h5>
+                                    <p class="pe-5">{!! nl2br(e($servicesRight1Text)) !!}
+                                        @if(!empty($servicesRight1Link) && !empty($servicesRight1LinkText))
+                                            <br>
+                                            <a href="{{ $servicesRight1Link }}">{{ $servicesRight1LinkText }}</a>
+                                        @endif
+                                    </p>
+                                    
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="info">
                                     <i class="material-icons text-gradient text-primary text-3xl">flip_to_front</i>
-                                    <h5 class="font-weight-bolder mt-3">Bootstrap 5 Ready</h5>
-                                    <p class="pe-3">The world’s most popular front-end open source toolkit,
-                                        featuring Sass variables and mixins.</p>
+                                    <h5 class="font-weight-bolder mt-3">{!! $servicesRight2Title !!}</h5>
+                                    <p class="pe-3">{!! nl2br(e($servicesRight2Text)) !!}
+                                        @if(!empty($servicesRight2Link) && !empty($servicesRight2LinkText))
+                                            <br>
+                                            <a href="{{ $servicesRight2Link }}">{{ $servicesRight2LinkText }}</a>
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="row justify-content-start mt-5">
-                            <div class="col-md-6 mt-3">
-                                <i class="material-icons text-gradient text-primary text-3xl">price_change</i>
-                                <h5 class="font-weight-bolder mt-3">Save Time & Money</h5>
-                                <p class="pe-5">Creating your design from scratch with dedicated designers
-                                    can be very expensive. Start with our Design System.</p>
-                            </div>
-                            <div class="col-md-6 mt-3">
-                                <div class="info">
-                                    <i class="material-icons text-gradient text-primary text-3xl">devices</i>
-                                    <h5 class="font-weight-bolder mt-3">Fully Responsive</h5>
-                                    <p class="pe-3">Regardless of the screen size, the website content will
-                                        naturally fit the given resolution.</p>
-                                </div>
-                            </div>
-                        </div>
+                         
                     </div>
                 </div>
             </div>
-        </section> --}}
+        </section> 
 
-        {{-- Start Categories --}}
-        {{-- <section class="categories"> --}}
-        {{-- <div class="row d-flex justify-content-center"> --}}
-        {{-- <div class="row">
-                <div class="owl-carousel owl-theme">
-                    @foreach ($categoriesPost as $category) --}}
-        {{-- <div class="col-md-3 text-center mb-2">
-                            <a href="{{ route('user.categoryDetails', $category) }}">
-                                <div class="card">
-                                    <div class="card-header p-1">
-                                        <div class=" d-flex justify-content-center align-items-center"
-                                            style="height: 200px;">
-                                            <img class="img-fluid"
-                                                src="{{ asset('storage/media/image/' . $category->latestPost()->fi()) }}"
-                                                alt="img" style="max-height: 100%">
-                                        </div>
-                                    </div>
-                                    <div class="card-body p-1">
-                                        <div class="card-title">{!! $category->name !!}</div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div> --}}
-        {{-- <div>
-                            <a href="{{ route('user.categoryDetails', $category) }}">
-                                <div class="card elevation-2 mb-2">
-                                    <img class="card-img-top"
-                                        src="{{ route('imagecache', ['template' => 'cplg', 'filename' => $category->latestPost()->fi()]) }}"
-                                        alt="Card image cap">
-                                    <div class="card-body p-1">
-                                        <h4 class="card-title w3-large m-1 p-1 text-center">{!! $category->name !!}</h4>
-                                    
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </section> --}}
-
+ 
 
 
         <section class="mb-3">
@@ -368,7 +589,7 @@
                 @foreach ($categoriesPost as $category)
                     <div class="col-md-4 col-12">
                         <a href="{{ route('user.categoryDetails', $category) }}" class="text-primary icon-move-right">
-                            <div class="card elevation-2 mb-3 mx-2 border-1 border-success-" style="height: 130px">
+                            <div class="glass-card elevation-2 mb-3 mx-2 border-1 border-success-" style="height: 130px">
                                 <div class="card-body p-1">
                                     <h4 class="card-title w3-large text-center font-weight-bold text-success- ">
                                         {{ Str::limit($category->name, 20, '...') }}</h4>
@@ -384,287 +605,8 @@
             </div>
         </section>
         {{-- End Categories --}}
-        <section>
-
-
-            <hr>
-            <br>
-            <br>
-
-            <section class="presence py-5">
-                <div class="container">
-                    <h3 class="wow fadeInUp text-center text-second" data-wow-delay=".1s">Our presence</h3>
-
-                    <div class="wow fadeInUp" data-wow-delay=".2s">
-                        <div class="presence-map"><img alt="our presence"
-                                src="https://dotlines.com.sg/uploads/cms/world-map.svg" />
-                            <div class="presence-map-point singapore active">
-                                <div class="presence-map-point-overlay">
-                                    <div class="points-marker">
-                                        <div class="points-marker-effect">&nbsp;</div>
-                                    </div>
-
-                                    <div class="points-name">Singapore</div>
-                                </div>
-                            </div>
-
-                            <div class="presence-map-point malaysia">
-                                <div class="presence-map-point-overlay">
-                                    <div class="points-marker">
-                                        <div class="points-marker-effect">&nbsp;</div>
-                                    </div>
-
-                                    <div class="points-name">Malaysia</div>
-                                </div>
-                            </div>
-
-                            <div class="presence-map-point indonesia">
-                                <div class="presence-map-point-overlay">
-                                    <div class="points-marker">
-                                        <div class="points-marker-effect">&nbsp;</div>
-                                    </div>
-
-                                    <div class="points-name">Indonesia</div>
-                                </div>
-                            </div>
-
-                            <div class="presence-map-point india">
-                                <div class="presence-map-point-overlay">
-                                    <div class="points-marker">
-                                        <div class="points-marker-effect">&nbsp;</div>
-                                    </div>
-
-                                    <div class="points-name">India</div>
-                                </div>
-                            </div>
-
-                            <div class="presence-map-point bangladesh">
-                                <div class="presence-map-point-overlay">
-                                    <div class="points-marker">
-                                        <div class="points-marker-effect">&nbsp;</div>
-                                    </div>
-
-                                    <div class="points-name">Bangladesh</div>
-                                </div>
-                            </div>
-
-                            <div class="presence-map-point myanmar">
-                                <div class="presence-map-point-overlay">
-                                    <div class="points-marker">
-                                        <div class="points-marker-effect">&nbsp;</div>
-                                    </div>
-
-                                    <div class="points-name">Myanmar</div>
-                                </div>
-                            </div>
-
-                            <div class="presence-map-point usa">
-                                <div class="presence-map-point-overlay">
-                                    <div class="points-marker">
-                                        <div class="points-marker-effect">&nbsp;</div>
-                                    </div>
-
-                                    <div class="points-name">USA</div>
-                                </div>
-                            </div>
-
-                            <div class="presence-map-point uae">
-                                <div class="presence-map-point-overlay">
-                                    <div class="points-marker">
-                                        <div class="points-marker-effect">&nbsp;</div>
-                                    </div>
-
-                                    <div class="points-name">UAE</div>
-                                </div>
-                            </div>
-
-                            <div class="presence-map-point panama">
-                                <div class="presence-map-point-overlay">
-                                    <div class="points-marker">
-                                        <div class="points-marker-effect">&nbsp;</div>
-                                    </div>
-
-                                    <div class="points-name">Panama</div>
-                                </div>
-                            </div>
-
-                            <div class="presence-map-point bolivia">
-                                <div class="presence-map-point-overlay">
-                                    <div class="points-marker">
-                                        <div class="points-marker-effect">&nbsp;</div>
-                                    </div>
-
-                                    <div class="points-name">Bolivia</div>
-                                </div>
-                            </div>
-
-                            <div class="presence-map-point nepal">
-                                <div class="presence-map-point-overlay">
-                                    <div class="points-marker">
-                                        <div class="points-marker-effect">&nbsp;</div>
-                                    </div>
-
-                                    <div class="points-name">Nepal</div>
-                                </div>
-                            </div>
-
-                            <div class="presence-map-point srilanka">
-                                <div class="presence-map-point-overlay">
-                                    <div class="points-marker">
-                                        <div class="points-marker-effect">&nbsp;</div>
-                                    </div>
-
-                                    <div class="points-name">Sri Lanka</div>
-                                </div>
-                            </div>
-
-                            <div class="presence-map-point south-africa">
-                                <div class="presence-map-point-overlay">
-                                    <div class="points-marker">
-                                        <div class="points-marker-effect">&nbsp;</div>
-                                    </div>
-
-                                    <div class="points-name">South Africa</div>
-                                </div>
-                            </div>
-
-                            <div class="presence-map-point egypt">
-                                <div class="presence-map-point-overlay">
-                                    <div class="points-marker">
-                                        <div class="points-marker-effect">&nbsp;</div>
-                                    </div>
-
-                                    <div class="points-name">Egypt</div>
-                                </div>
-                            </div>
-
-                            <div class="presence-map-point qatar">
-                                <div class="presence-map-point-overlay">
-                                    <div class="points-marker">
-                                        <div class="points-marker-effect">&nbsp;</div>
-                                    </div>
-
-                                    <div class="points-name">Qatar</div>
-                                </div>
-                            </div>
-
-                            <div class="presence-map-point thailand">
-                                <div class="presence-map-point-overlay">
-                                    <div class="points-marker">
-                                        <div class="points-marker-effect">&nbsp;</div>
-                                    </div>
-
-                                    <div class="points-name">Thailand</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </section>
-        {{-- country list- --}}
-        <section>
-            <div class="contanier">
-                <div class="row">
-                    <div class="col-6 col-md-3">
-
-                        <ul class="list list-icons list-primary">
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> India</li>
-
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> Nepal</li>
-
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> China</li>
-
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> Vietnam</li>
-
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> Singapur</li>
-                        </ul>
-                    </div>
-                    <div class="col-6 col-md-3">
-
-                        <ul class="list list-icons list-primary">
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> Hong kong</li>
-
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> Dubai</li>
-
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> Inglaterra</li>
-
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> Alemania</li>
-
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> Polonia</li>
-                        </ul>
-                    </div>
-                    <div class="col-6 col-md-3">
-
-                        <ul class="list list-icons list-primary">
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> Republica Checa
-                            </li>
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> Spain </li>
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> Romania</li>
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> Bolivia</li>
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> America ( new
-                                York)</li>
-                        </ul>
-                    </div>
-                    <div class="col-6 col-md-3">
-
-                        <ul class="list list-icons list-primary">
-
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> Brazil</li>
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> Peru</li>
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> Venezuela</li>
-                            <li class="appear-animation animated fadeInUp appear-animation-visible"
-                                data-appear-animation="fadeInUp" data-appear-animation-delay="0"
-                                style="animation-delay: 0ms;"><i class="fas fa-check "></i> Bangladesh</li>
-
-
-                        </ul>
-
-
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
+ 
+ 
         <hr>
 
         <!-- Set up your HTML -->
@@ -728,6 +670,7 @@
                                     @endforeach
                                 </div>
 
+                                
                                 <div class="col-sm-6">
                                     @foreach ($category->posts->take(6) as $post)
                                         @if ($loop->index > 1)
@@ -1040,27 +983,7 @@
 @push('js')
     <script src="https://dotlines.com.sg/vendor/cms-template/dotlines/js/jquery-3.6.0.min.js"></script>
     <script src="https://dotlines.com.sg/vendor/cms-template/dotlines/js/slider.js"></script>
-    <script>
-        var d_jQuery = Cog.jQuery();
-
-
-
-        // add active class in map
-        var countries = ['singapore', 'malaysia', 'indonesia', 'india', 'bangladesh', 'myanmar', 'usa', 'uae', 'panama',
-            'bolivia', 'nepal', 'srilanka', 'south-africa', 'egypt', 'qatar', 'thailand'
-        ];
-        var counter = 0;
-        setInterval(function() {
-            var county_length = d_jQuery('.presence-map-point').length;
-            if (county_length == counter) {
-                counter = 0;
-            }
-
-            d_jQuery('.presence-map-point').removeClass('active');
-            d_jQuery('.' + countries[counter]).addClass('active');
-            ++counter
-        }, 4000);
-    </script>
+     
 {{--     <script>
         $(document).ready(function() {
             $('.owl-carousel').owlCarousel({
@@ -1174,5 +1097,40 @@
             css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
             document.body.appendChild(css);
         };
+
+
+        
+document.querySelectorAll('.glass-card').forEach(card => {
+
+card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    card.style.setProperty('--x', x + 'px');
+    card.style.setProperty('--y', y + 'px');
+});
+
+});
+
+document.querySelectorAll('.glass-card').forEach(card => {
+
+setInterval(() => {
+
+    const spark = document.createElement('span');
+    spark.classList.add('spark');
+
+    spark.style.left = Math.random() * 100 + '%';
+    spark.style.bottom = '10px';
+
+    card.appendChild(spark);
+
+    setTimeout(() => {
+        spark.remove();
+    }, 2000);
+
+}, 600);
+
+});
     </script>
 @endpush

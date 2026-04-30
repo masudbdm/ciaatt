@@ -2,13 +2,9 @@
 
 namespace App\Providers;
 
-use App\Models\Category;
-use App\Models\Menu;
-use App\Models\Post;
-use App\Models\WebsiteParameter;
+use App\Services\SiteCacheService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Cache;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,26 +17,13 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
 
-        $oneWeek = 60 * 60 * 24 * 7; // seconds
+        $menusForAll = SiteCacheService::menusForAll();
 
-        $menusForAll = Cache::remember('menus_for_all', $oneWeek, function () {
-            return Menu::all();
-        });
+        $categoriesForAll = SiteCacheService::categoriesForAll();
 
-        $categoriesForAll = Cache::remember('categories_for_all', $oneWeek, function () {
-            return Category::all();
-        });
+        $postsRightSidebar = SiteCacheService::postsRightSidebar();
 
-        $postsRightSidebar = Cache::remember('posts_right_sidebar', $oneWeek, function () {
-            return Post::where('publish_status', 'published')
-                ->latest()
-                ->take(5)
-                ->get();
-        });
-
-        $websiteParameter = Cache::remember('website_parameter', $oneWeek, function () {
-            return WebsiteParameter::latest()->first();
-        });
+        $websiteParameter = SiteCacheService::websiteParameter();
 
         view()->share([
             'menusForAll'       => $menusForAll,

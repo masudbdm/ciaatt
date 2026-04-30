@@ -23,7 +23,7 @@ class SubCategory extends Model
     }
     public function category()
     {
-        $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
     public function posts()
     {

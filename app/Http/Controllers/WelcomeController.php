@@ -12,6 +12,8 @@ use App\Models\Page;
 use App\Models\Post;
 use App\Models\Team;
 use App\Models\PostCategory;
+use App\Models\PostSubcategory;
+use App\Models\SubCategory;
 use App\Models\WebsiteParameter;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,6 +24,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Laravel\Ui\Presets\React;
+use App\Services\SiteCacheService;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
@@ -30,39 +33,17 @@ class WelcomeController extends Controller
 
     public function welcome()
     {
-        $categoriesPost = Cache::remember('home_categories_post', now()->addDays(7), function () {
-            return Category::whereHas('posts')
-                ->orderBy('drag_id')
-                ->get();
-        });
+        $categoriesPost = SiteCacheService::homeCategoriesPost();
 
-        $categories = Cache::remember('home_categories', now()->addDays(7), function () {
-            return Category::orderBy('drag_id')->get();
-        });
+        $categories = SiteCacheService::homeCategories();
 
-        $postCategories = Cache::remember('home_post_categories', now()->addDays(7), function () {
-            return PostCategory::all();
-        });
+        $postCategories = SiteCacheService::homePostCategories();
 
-        $posts = Cache::remember('home_posts_random_24', now()->addDays(7), function () {
-            return Post::where('publish_status', '<>', 'temp')
-                ->inRandomOrder()
-                ->limit(24)
-                ->get();
-        });
+        $posts = SiteCacheService::homePostsRandom24();
 
-        $pages = Cache::remember('home_pages', now()->addDays(7), function () {
-            return Page::orderBy('drag_id')->get();
-        });
+        $pages = SiteCacheService::homePages();
 
-        $featured_teams = Cache::remember('featured_teams', now()->addDays(7), function () {
-                return Team::where('status', 1)
-                    ->where('featured', 1)
-                    ->orderByRaw('drag_id IS NULL, drag_id ASC')
-                    ->limit(4)
-                    ->get();
-            });
-
+        $featured_teams = SiteCacheService::featuredTeams();
 
         return view('home.welcome', compact(
             'categories',
@@ -82,24 +63,72 @@ class WelcomeController extends Controller
 
     public function categoryDetails(Category $category)
     {
-        $categories = Cache::remember('home_categories', now()->addDays(7), function () {
-            return Category::orderBy('drag_id')->get();
-        });
+        $categories = SiteCacheService::homeCategories();
 
-        $pages = Cache::remember('home_pages', now()->addDays(7), function () {
-            return Page::orderBy('drag_id')->get();
-        });
+        $pages = SiteCacheService::homePages();
 
-        $findPosts = PostCategory::where('category_id',$category->id)->pluck('post_id');
+        $cached = Cache::remember(
+            SiteCacheService::categoryShowKey($category->id),
+            SiteCacheService::ttl(),
+            function () use ($category) {
+                $postIds = PostCategory::where('category_id', $category->id)->pluck('post_id');
+                $posts = Post::query()
+                    ->where('publish_status', 'published')
+                    ->whereIn('id', $postIds)
+                    ->latest()
+                    ->get();
+                $postsForRightSidebar = Post::where('publish_status', 'published')->latest()->take(5)->get();
 
-        $posts = Post::find($findPosts);
+                return compact('posts', 'postsForRightSidebar');
+            }
+        );
 
-        $postsForRightSidebar = Post::where('publish_status','published')->latest()->take(5)->get();
+        $posts = $cached['posts'];
+        $postsForRightSidebar = $cached['postsForRightSidebar'];
 
-        // $allPosts = Post::latest()->take(3)->get();
+        return view('home.categoryDetails', compact('categories', 'category', 'pages', 'postsForRightSidebar', 'posts'));
+    }
 
-        // dd($posts);
-        return view('home.categoryDetails',compact('categories','category','pages','postsForRightSidebar','posts'));
+    public function subcategoryDetails(SubCategory $subcategory)
+    {
+        $subcategory->loadMissing('category');
+
+        $categories = SiteCacheService::homeCategories();
+
+        $pages = SiteCacheService::homePages();
+
+        $category = $subcategory->category;
+
+        $cached = Cache::remember(
+            SiteCacheService::subcategoryShowKey($subcategory->id),
+            SiteCacheService::ttl(),
+            function () use ($subcategory) {
+                $postIds = PostSubcategory::where('subcategory_id', $subcategory->id)->pluck('post_id');
+                $posts = Post::query()
+                    ->where('publish_status', 'published')
+                    ->whereIn('id', $postIds)
+                    ->latest()
+                    ->get();
+                $postsForRightSidebar = Post::where('publish_status', 'published')->latest()->take(5)->get();
+
+                return compact('posts', 'postsForRightSidebar');
+            }
+        );
+
+        $posts = $cached['posts'];
+        $postsForRightSidebar = $cached['postsForRightSidebar'];
+
+        $metaTitle = $subcategory->name;
+
+        return view('home.subcategoryDetails', compact(
+            'categories',
+            'category',
+            'subcategory',
+            'pages',
+            'postsForRightSidebar',
+            'posts',
+            'metaTitle'
+        ));
     }
 
     public function menuDetails(Request $request)
@@ -131,83 +160,81 @@ class WelcomeController extends Controller
 
     public function pageDetails(Request $request)
     {
-        // dd("Function pageDetails");
-        // dd($request->page);
-        $page = Page::find($request->page);
+        $page = Cache::remember(
+            SiteCacheService::pageShowKey((int) $request->page),
+            SiteCacheService::ttl(),
+            function () use ($request) {
+                return Page::with('items')->findOrFail($request->page);
+            }
+        );
 
-        // dd($page);
-        
-        $pageItems = Page::find($request->page)->items;
+        $pageItems = $page->items;
 
-        // dd($pageItems->count());
-        if ($pageItems->count() == 0) 
-        {
-            return view('home.pageDetails',compact('page'));
-        }
-        else
-        {
-            return view('home.pageDetails',compact('page','pageItems'));
+        if ($pageItems->count() == 0) {
+            return view('home.pageDetails', compact('page'));
         }
 
+        return view('home.pageDetails', compact('page', 'pageItems'));
     }
 
     public function details()
     {
-        $categories = Cache::remember('home_categories', now()->addDays(7), function () {
-            return Category::orderBy('drag_id')->get();
-        });
+        $categories = SiteCacheService::homeCategories();
 
-        $pages = Cache::remember('home_pages', now()->addDays(7), function () {
-            return Page::orderBy('drag_id')->get();
-        });
+        $pages = SiteCacheService::homePages();
 
-        
-        return view('home.details',compact('categories','pages'));
+        return view('home.details', compact('categories', 'pages'));
     }
 
     public function companyProfile()
     {
-        $categories = Cache::remember('home_categories', now()->addDays(7), function () {
-            return Category::orderBy('drag_id')->get();
-        });
-        $pages = Cache::remember('home_pages', now()->addDays(7), function () {
-            return Page::orderBy('drag_id')->get();
-        });
-        return view('home.companyProfile',compact('categories','pages'));
+        $categories = SiteCacheService::homeCategories();
+        $pages = SiteCacheService::homePages();
+
+        return view('home.companyProfile', compact('categories', 'pages'));
     }
 
     public function aboutUs()
     {
-        $categories = Cache::remember('home_categories', now()->addDays(7), function () {
-            return Category::orderBy('drag_id')->get();
-        });
-        $pages = Cache::remember('home_pages', now()->addDays(7), function () {
-            return Page::orderBy('drag_id')->get();
-        });
-        return view('home.aboutUs',compact('categories','pages'));
+        $categories = SiteCacheService::homeCategories();
+        $pages = SiteCacheService::homePages();
+
+        return view('home.aboutUs', compact('categories', 'pages'));
     }
 
     public function contactUs()
     {
-        $categories = Cache::remember('home_categories', now()->addDays(7), function () {
-            return Category::orderBy('drag_id')->get();
-        });
-        $pages = Cache::remember('home_pages', now()->addDays(7), function () {
-            return Page::orderBy('drag_id')->get();
-        });
-        return view('home.contactUs', compact('categories','pages') );
+        $categories = SiteCacheService::homeCategories();
+        $pages = SiteCacheService::homePages();
+
+        return view('home.contactUs', compact('categories', 'pages'));
     }
 
     public function postDetails(Post $post)
     {
-        // dd("function postDetails");
-        // $categories = Category::orderBy('drag_id')->get();
+        if ($post->publish_status !== 'published') {
+            abort(404);
+        }
 
-        $posts = Post::where('publish_status','published')->where('id','<>',$post->id)->latest()->take(5)->get();
+        $data = Cache::remember(
+            SiteCacheService::postShowKey($post->id),
+            SiteCacheService::ttl(),
+            function () use ($post) {
+                $fresh = Post::query()->findOrFail($post->id);
+                $posts = Post::where('publish_status', 'published')
+                    ->where('id', '<>', $post->id)
+                    ->latest()
+                    ->take(5)
+                    ->get();
 
-        // dd($allPosts);
+                return ['post' => $fresh, 'posts' => $posts];
+            }
+        );
 
-        return view('home.postDetails',compact('posts','post'));
+        return view('home.postDetails', [
+            'post' => $data['post'],
+            'posts' => $data['posts'],
+        ]);
     }
 
 
@@ -386,11 +413,7 @@ class WelcomeController extends Controller
 
     public function teams()
     {
-        $teams = Cache::remember('teams', now()->addDays(7), function () {
-                return Team::where('status', 1)
-                        ->orderByRaw('drag_id IS NULL, drag_id ASC')
-                        ->get();
-                        });
+        $teams = SiteCacheService::teamsList();
 
         return view('home.teams', compact('teams'));
     }
